@@ -1,0 +1,25 @@
+[log]
+LogPath = ""
+#LogPath = "/var/log/rule_engine/debug.log"
+LogLevel = "debug"
+MaxSize = 10
+Compress = true
+MaxAge = 7
+MaxBackups = 10
+Format = "json"
+
+[mysql]
+Username = "root"
+Password = "XXXX" # 替换mysql密码
+Addr = "X.X.X.X" # 替换mysql服务器IP
+Port = "3306"
+Database = "waf"
+
+[server]
+Port = 9999
+Mode = "debug"
+
+[redis]
+Network = "tcp"
+Addr = "X.X.X.X:6379" # 替换redis服务器IP
+DB = 0
