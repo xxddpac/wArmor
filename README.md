@@ -1,6 +1,6 @@
 # wArmor - An WAF Framework based on OpenResty
 
-## wArmor
+[![Security Status](https://www.murphysec.com/platform3/v31/badge/1725063962646499328.svg)](https://www.murphysec.com/console/report/1725060297802076160/1725063962646499328)
 
 ### 性能并发
 
