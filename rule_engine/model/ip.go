@@ -7,11 +7,11 @@ type Ip struct {
 	Base
 	Operator      string              `db:"operator" json:"operator" binding:"required"`
 	Comment       string              `db:"comment" json:"comment" binding:"required"`
-	BlockType     global.WafBlockType `db:"block_type" json:"block_type"`
-	ExpireTime    string              `db:"expire_time" json:"expire_time"`
+	BlockType     global.WafBlockType `db:"block_type" json:"block_type" enums:"1,2"`
+	ExpireTime    string              `db:"expire_time" json:"expire_time" swaggerignore:"true"`
 	IpAddress     string              `db:"ip_address" json:"ip_address" binding:"required"`
-	IpType        global.WafIpType    `db:"ip_type" json:"ip_type" binding:"required,oneof=1 2"`
-	ExpireTimeTag int                 `json:"expire_time_tag"`
+	IpType        global.WafIpType    `db:"ip_type" json:"ip_type" binding:"required,oneof=1 2" enums:"1,2"`
+	ExpireTimeTag string              `json:"expire_time_tag" example:"当创建黑名单IP并且是临时封禁时,1:封禁1小时,2:封禁8小时,3:封禁1天,4:封禁7天。创建黑名单永久封禁以及白名单此字段无需填写"`
 }
 
 //建表语句

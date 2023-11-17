@@ -10,6 +10,7 @@ func Register(v1 *gin.RouterGroup) {
 		rule.POST("", Rule.Post)
 		rule.PUT("", Rule.Put)
 		rule.DELETE("", Rule.Delete)
+		rule.GET("enum", Rule.Enum)
 	}
 	//配置
 	config := v1.Group("/config")
@@ -17,6 +18,7 @@ func Register(v1 *gin.RouterGroup) {
 		config.POST("", Config.Post)
 		config.PUT("", Config.Put)
 		config.GET("", Config.Get)
+		config.GET("enum", Config.Enum)
 	}
 	//黑白名单
 	ip := v1.Group("/ip")
@@ -25,6 +27,6 @@ func Register(v1 *gin.RouterGroup) {
 		ip.GET("", Ip.Get)
 		ip.DELETE("/remove", Ip.Remove) //任务调度检测黑名单IP是否过期,若过期则删除
 		ip.DELETE("", Ip.Delete)
+		ip.GET("enum", Ip.Enum)
 	}
-
 }

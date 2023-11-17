@@ -22,6 +22,9 @@ func init() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 }
 
+// @title wArmor规则引擎API服务
+// @version 1.0
+// @description wArmor规则引擎API接口文档
 func main() {
 	var (
 		cfg string

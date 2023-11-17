@@ -13,17 +13,17 @@ import (
 
 var (
 	ManagerIp *_ManagerIp
-	expireMap = map[int]func() time.Time{
-		1: func() time.Time {
+	expireMap = map[string]func() time.Time{
+		"1": func() time.Time {
 			return time.Now().Add(time.Hour * 1)
 		},
-		2: func() time.Time {
+		"2": func() time.Time {
 			return time.Now().Add(time.Hour * 8)
 		},
-		3: func() time.Time {
+		"3": func() time.Time {
 			return time.Now().AddDate(0, 0, 1)
 		},
-		4: func() time.Time {
+		"4": func() time.Time {
 			return time.Now().AddDate(0, 0, 7)
 		},
 	}

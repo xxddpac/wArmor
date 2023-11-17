@@ -5,7 +5,7 @@ import "rule_engine/global"
 type Config struct {
 	Base
 	Operator string               `db:"operator" json:"operator" binding:"required"`
-	Mode     global.WafConfigType `db:"mode" json:"mode" binding:"required,oneof=1 2 3"`
+	Mode     global.WafConfigType `db:"mode" json:"mode" binding:"required,oneof=1 2 3" enums:"1,2,3"`
 }
 
 //建表语句

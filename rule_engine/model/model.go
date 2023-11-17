@@ -8,9 +8,9 @@ import (
 )
 
 type Base struct {
-	ID        int    `db:"id" json:"id"`
-	CreatedAt string `db:"created_at" json:"created_at"`
-	UpdatedAt string `db:"updated_at" json:"updated_at"`
+	ID        int    `db:"id" json:"id" swaggerignore:"true"`
+	CreatedAt string `db:"created_at" json:"created_at" swaggerignore:"true"`
+	UpdatedAt string `db:"updated_at" json:"updated_at" swaggerignore:"true"`
 }
 
 type QueryID struct {

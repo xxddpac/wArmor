@@ -1,0 +1,484 @@
+definitions:
+  model.Config:
+    properties:
+      mode:
+        enum:
+        - 1
+        - 2
+        - 3
+        type: integer
+      operator:
+        type: string
+    required:
+    - mode
+    - operator
+    type: object
+  model.Ip:
+    properties:
+      block_type:
+        enum:
+        - 1
+        - 2
+        type: integer
+      comment:
+        type: string
+      expire_time_tag:
+        example: 当创建黑名单IP并且是临时封禁时,1:封禁1小时,2:封禁8小时,3:封禁1天,4:封禁7天。创建黑名单永久封禁以及白名单此字段无需填写
+        type: string
+      ip_address:
+        type: string
+      ip_type:
+        enum:
+        - 1
+        - 2
+        type: integer
+      operator:
+        type: string
+    required:
+    - comment
+    - ip_address
+    - ip_type
+    - operator
+    type: object
+  model.Response:
+    properties:
+      code:
+        type: integer
+      data:
+        type: object
+      msg:
+        type: string
+    type: object
+  model.Rule:
+    properties:
+      description:
+        type: string
+      operator:
+        type: string
+      rule_action:
+        enum:
+        - 1
+        - 2
+        - 3
+        type: integer
+      rule_type:
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        type: integer
+      rule_variable:
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        type: integer
+      rules:
+        example:
+        - 规则正则表达式列表
+        items:
+          type: string
+        type: array
+      rules_operation:
+        example: 输入 and 或 or,and需全部匹配Rules列表,or匹配Rules列表任意一个
+        type: string
+      severity:
+        enum:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        type: integer
+      status:
+        type: boolean
+    required:
+    - description
+    - operator
+    - rule_action
+    - rule_type
+    - rule_variable
+    - rules
+    - rules_operation
+    - severity
+    - status
+    type: object
+info:
+  contact: {}
+  description: wArmor规则引擎API接口文档
+  license: {}
+  title: wArmor规则引擎API服务
+  version: "1.0"
+paths:
+  /api/v1/config:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取waf当前运行模式
+      tags:
+      - 配置
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: raw
+        in: body
+        name: raw
+        required: true
+        schema:
+          $ref: '#/definitions/model.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 创建waf运行模式
+      tags:
+      - 配置
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: raw
+        in: body
+        name: raw
+        required: true
+        schema:
+          $ref: '#/definitions/model.Config'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 修改waf运行模式
+      tags:
+      - 配置
+  /api/v1/config/enum:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取waf模式枚举对应关系
+      tags:
+      - 配置
+  /api/v1/ip:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 删除IP黑白名单
+      tags:
+      - IP黑白名单
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 模糊查询
+        in: query
+        name: keyword
+        type: string
+      - description: 封禁类型【枚举值】
+        in: query
+        name: block_type
+        type: integer
+      - description: ip类型【枚举值】
+        in: query
+        name: ip_type
+        type: integer
+      - description: 当前页数,默认值:1
+        in: query
+        name: page
+        type: string
+      - description: 当前条数,默认值:10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取IP黑白名单列表
+      tags:
+      - IP黑白名单
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: raw
+        in: body
+        name: raw
+        required: true
+        schema:
+          $ref: '#/definitions/model.Ip'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 创建IP黑白名单
+      tags:
+      - IP黑白名单
+  /api/v1/ip/enum:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取IP黑白名单枚举对应关系
+      tags:
+      - IP黑白名单
+  /api/v1/ip/remove:
+    delete:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 定时任务检测黑名单IP是否过期,若过期则删除
+      tags:
+      - IP黑白名单
+  /api/v1/rule:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 删除规则
+      tags:
+      - 规则
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 模糊查询
+        in: query
+        name: keyword
+        type: string
+      - description: 规则状态【0=false,1=true】
+        in: query
+        name: status
+        type: integer
+      - description: 规则变量【枚举值】
+        in: query
+        name: rule_variable
+        type: integer
+      - description: 规则类型【枚举值】
+        in: query
+        name: rule_type
+        type: integer
+      - description: 规则动作【枚举值】
+        in: query
+        name: rule_action
+        type: integer
+      - description: 规则级别【枚举值】
+        in: query
+        name: severity
+        type: integer
+      - description: 当前页数,默认值:1
+        in: query
+        name: page
+        type: string
+      - description: 当前条数,默认值:10
+        in: query
+        name: size
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取规则列表
+      tags:
+      - 规则
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: raw
+        in: body
+        name: raw
+        required: true
+        schema:
+          $ref: '#/definitions/model.Rule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 创建规则
+      tags:
+      - 规则
+    put:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: raw
+        in: body
+        name: raw
+        required: true
+        schema:
+          $ref: '#/definitions/model.Rule'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 修改规则
+      tags:
+      - 规则
+  /api/v1/rule/enum:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.Response'
+      summary: 获取规则枚举对应关系
+      tags:
+      - 规则
+swagger: "2.0"

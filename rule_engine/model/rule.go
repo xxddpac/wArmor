@@ -6,15 +6,15 @@ import (
 
 type Rule struct {
 	Base
-	RuleVariable   global.WafRuleVariable `db:"rule_variable" json:"rule_variable" binding:"required"`
+	RuleVariable   global.WafRuleVariable `db:"rule_variable" json:"rule_variable" binding:"required" enums:"1,2,3,4,5,6"`
 	Operator       string                 `db:"operator" json:"operator" binding:"required"`
-	RuleType       global.WafRuleType     `db:"rule_type" json:"rule_type" binding:"required"`
+	RuleType       global.WafRuleType     `db:"rule_type" json:"rule_type" binding:"required" enums:"1,2,3,4,5,6,7,8,9,10,11,12,13,14,15"`
 	Status         *bool                  `db:"status" json:"status" binding:"required"`
-	Rules          []string               `db:"rules" json:"rules" binding:"required"`
-	RuleAction     global.WafRuleAction   `db:"rule_action" json:"rule_action" binding:"required"`
+	Rules          []string               `db:"rules" json:"rules" binding:"required" example:"规则正则表达式列表"`
+	RuleAction     global.WafRuleAction   `db:"rule_action" json:"rule_action" binding:"required" enums:"1,2,3"`
 	Description    string                 `db:"description" json:"description" binding:"required"`
-	RulesOperation string                 `db:"rules_operation" json:"rules_operation" binding:"required"`
-	Severity       global.WafRuleSeverity `db:"severity" json:"severity" binding:"required"`
+	RulesOperation string                 `db:"rules_operation" json:"rules_operation" binding:"required" example:"输入 and 或 or,and需全部匹配Rules列表,or匹配Rules列表任意一个"`
+	Severity       global.WafRuleSeverity `db:"severity" json:"severity" binding:"required" enums:"1,2,3,4,5"`
 }
 
 //建表语句
