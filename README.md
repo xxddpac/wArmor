@@ -18,7 +18,7 @@
 的主要任务是拦截恶意请求并记录相关日志，而其他工具负责检测和更新 `IP黑名单` 。这样的分工协同确保了高效的安全响应。
 另外 `IP黑白名单` 支持永久、临时封禁也同样可在平台上进行手动更新。
 
-### 灰度测试(TODO)
+### 灰度验证(TODO)
 
 考虑到 `Nginx` 多集群部署的情况，后续也会提供选择性关闭热更新的选项，以便在特定 `Nginx`
 集群上进行规则更新。这使得灰度测试变得更加容易，确保规则的更新不会影响整个环境的正常运行，
@@ -29,7 +29,7 @@
 访问 `http://rule_engine_ip:9999//swagger/index.html#/` API文档，针对 `规则` 、 `配置` 、 `IP黑白名单`
 增删改查，某些枚举值含义参考枚举对应关系。
 
-![api](images/api.png)
+![api](rule_engine/images/api.png)
 
 ## 规则引擎部署
 
@@ -214,7 +214,7 @@ header_filter_by_lua_file /usr/local/openresty/waf/header_filter.lua;
 
 如果部署一切正常，访问 `http://nginx_ip/api/v1/rule?query=../../etc/passwd` 浏览器会出现拦截信息。
 
-![waf](images/waf.png)
+![waf](rule_engine/images/waf.png)
 
 拦截日志会异步写入远程 `syslog-ng` 服务器。
 
@@ -244,7 +244,7 @@ header_filter_by_lua_file /usr/local/openresty/waf/header_filter.lua;
 
 ## 架构设计
 
-![wArmor](images/wArmor.jpg)
+![wArmor](rule_engine/images/wArmor.jpg)
 
 ## 文末
 
