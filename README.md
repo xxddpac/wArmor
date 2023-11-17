@@ -147,6 +147,22 @@ curl -X POST -H "Content-Type: application/json" -d ' {
             }' http://rule_engine_ip:9999/api/v1/rule
 ```
 
+### 创建 `敏感信息监控` 规则
+
+```bash
+ curl -X POST -H "Content-Type: application/json" -d ' {
+                "rule_variable": 6,
+                "operator": "wArmor",
+                "rule_type": 9,
+                "status": true,
+                "rules": ["You have an error in your SQL syntax"],
+                "rule_action": 3,
+                "description": "检测响应体是否包含原始sql错误信息而泄露表结构信息,开发者应处理该错误返回",
+                "rules_operation": "or",
+                "severity": 2
+            }' http://rule_engine_ip:9999/api/v1/rule
+``````
+
 ## WAF部署
 
 ### 安装 `libmaxminddb` 库
@@ -218,6 +234,8 @@ header_filter_by_lua_file /usr/local/openresty/waf/header_filter.lua;
 
 拦截日志会异步写入远程 `syslog-ng` 服务器。
 
+- `路径遍历` 被拦截日志
+
 ```json
 {
   "program": "wArmor",
@@ -239,6 +257,22 @@ header_filter_by_lua_file /usr/local/openresty/waf/header_filter.lua;
   "mode": "拦截模式",
   "request_method": "GET",
   "rule_type": "路径遍历"
+}
+```
+
+- `敏感信息监控` 日志
+
+```json
+{
+  "rule_type": "敏感信息",
+  "rule_id": 2,
+  "response": "{\"code\":400,\"msg\":\"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rules VARCHAR(255) NOT NULL COMMENT '规则详情',    \\n        \\t   FOREIGN KEY (rule_id) RE' at line 4\",\"data\":null}",
+  "request_server_name": "*****",
+  "request_uri": "/api/v1/user/list",
+  "severity": "高危",
+  "timestamp": "2023-11-17 14:41:12",
+  "program": "wArmor",
+  "request_method": "GET"
 }
 ```
 
