@@ -257,7 +257,7 @@ header_filter_by_lua_file /usr/local/openresty/waf/header_filter.lua;
 
 重启 `nginx` 服务
 
-restart nginx
+Restart nginx
 
 ```bash
 /usr/local/openresty/nginx/sbin/nginx -s reload
@@ -319,6 +319,27 @@ The interception logs will be asynchronously written to a remote syslog-ng serve
 ## 架构设计 【Architectural design】
 
 ![wArmor](rule_engine/images/wArmor.jpg)
+
+
+
+> [!IMPORTANT]
+> 当 **WAF** 和**规则引擎**都正常运行时，**规则引擎**每**10秒**会发送心跳以确保**WAF**订阅通道保持监听状态。
+>
+> When both the WAF and the rule engine are functioning properly, the rule engine sends a heartbeat every 10 seconds to
+> ensure the WAF subscription channel remains in a listening state.
+>
+> 然而，如果**规则引擎**发生异常，**WAF**
+> 在5分钟内未收到心跳信号，订阅通道将进入超时状态从而导致热更新功能失效。在此情况下，需要重新启动**规则引擎**并重启
+> **Nginx**服务。
+>
+> However, if the rule engine encounters an issue and the WAF fails to receive a heartbeat signal within 5 minutes, the
+> subscription channel will enter a timeout state, resulting in the failure of the hot update functionality. In such a
+> scenario, it's necessary to restart the rule engine and subsequently reboot the Nginx service.
+>
+> 你也可以通过访问**waf/config.lua**文件来自定义**Redis**的`read_timeout`读取超时时间以应对这种极端情况，并设置更长的超时时间。
+>
+> You can also address this extreme situation by accessing the waf/config.lua file to customize the read_timeout for
+> Redis, thereby setting a longer timeout duration to mitigate this issue.
 
 ## 文末 【End】
 
